@@ -13,4 +13,4 @@ class LibfreenectTestConan(ConanFile):
         self.run('qbs run')
 
         # Ensure we only link to system libraries and to libraries we built.
-        self.run('! (otool -L bin/libfreenect.0.5.6.dylib | tail +3 | egrep -v "^\s*(/usr/lib/|/System/|@rpath/)")')
+        self.run('! (otool -L bin/libfreenect.dylib | tail +3 | egrep -v "^\s*(/usr/lib/|/System/|@rpath/)")')

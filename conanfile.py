@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+import shutil
 
 class LibfreenectConan(ConanFile):
     name = 'libfreenect'
@@ -10,7 +11,6 @@ class LibfreenectConan(ConanFile):
     description = 'Driver for the Kinect for Windows v1 / Kinect for Xbox 360'
     source_dir = 'libfreenect-%s' % version
     build_dir = '_build'
-    dylib_name = 'libfreenect.%s.dylib' % version
     generators = 'cmake'
 
     def source(self):
@@ -57,13 +57,13 @@ class LibfreenectConan(ConanFile):
             cmake.build()
 
             # They forgot to update the version number.
-            self.run('mv lib/libfreenect.0.5.5.dylib lib/libfreenect.0.5.6.dylib')
+            shutil.move('lib/libfreenect.0.5.5.dylib', 'lib/libfreenect.dylib')
 
-            self.run('install_name_tool -id @rpath/%s lib/%s' % (self.dylib_name, self.dylib_name))
+            self.run('install_name_tool -id @rpath/libfreenect.dylib lib/libfreenect.dylib')
 
     def package(self):
         self.copy('*.h', src='%s/include' % self.source_dir, dst='include/libfreenect')
-        self.copy(self.dylib_name, src='%s/lib' % self.build_dir, dst='lib')
+        self.copy('libfreenect.dylib', src='%s/lib' % self.build_dir, dst='lib')
 
     def package_info(self):
-        self.cpp_info.libs = ['freenect.%s' % self.version]
+        self.cpp_info.libs = ['freenect']
