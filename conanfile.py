@@ -15,8 +15,7 @@ class LibfreenectConan(ConanFile):
 
     def source(self):
         tools.get('https://github.com/OpenKinect/libfreenect/archive/v%s.tar.gz' % self.version,
-                  # sha256='5ec1973cd01fd864f4c5ccc84536aa2636d0be768ba8b1c2d99026f3cd1abfd3'
-                  )
+                  sha256='5ec1973cd01fd864f4c5ccc84536aa2636d0be768ba8b1c2d99026f3cd1abfd3')
 
         tools.replace_in_file('%s/CMakeLists.txt' % self.source_dir,
                               'PROJECT(libfreenect)',
