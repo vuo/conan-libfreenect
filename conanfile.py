@@ -8,7 +8,7 @@ class LibfreenectConan(ConanFile):
     package_version = '2'
     version = '%s-%s' % (source_version, package_version)
 
-    requires = 'libusb/1.0.21@vuo/stable'
+    requires = 'libusb/1.0.21-2@vuo/stable'
     settings = 'os', 'compiler', 'build_type', 'arch'
     url = 'https://github.com/vuo/conan-libfreenect'
     license = 'https://github.com/OpenKinect/libfreenect/blob/master/APACHE20'
