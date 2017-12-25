@@ -3,18 +3,22 @@ import shutil
 
 class LibfreenectConan(ConanFile):
     name = 'libfreenect'
-    version = '0.5.6'
+
+    source_version = '0.5.6'
+    package_version = '2'
+    version = '%s-%s' % (source_version, package_version)
+
     requires = 'libusb/1.0.21@vuo/stable'
     settings = 'os', 'compiler', 'build_type', 'arch'
     url = 'https://github.com/vuo/conan-libfreenect'
     license = 'https://github.com/OpenKinect/libfreenect/blob/master/APACHE20'
     description = 'Driver for the Kinect for Windows v1 / Kinect for Xbox 360'
-    source_dir = 'libfreenect-%s' % version
+    source_dir = 'libfreenect-%s' % source_version
     build_dir = '_build'
     generators = 'cmake'
 
     def source(self):
-        tools.get('https://github.com/OpenKinect/libfreenect/archive/v%s.tar.gz' % self.version,
+        tools.get('https://github.com/OpenKinect/libfreenect/archive/v%s.tar.gz' % self.source_version,
                   sha256='5ec1973cd01fd864f4c5ccc84536aa2636d0be768ba8b1c2d99026f3cd1abfd3')
 
         tools.replace_in_file('%s/CMakeLists.txt' % self.source_dir,
@@ -49,7 +53,7 @@ class LibfreenectConan(ConanFile):
             cmake.definitions['BUILD_PYTHON3'] = False
             cmake.definitions['BUILD_REDIST_PACKAGE'] = True
             cmake.definitions['CMAKE_C_COMPILER'] = '/usr/local/bin/clang'
-            cmake.definitions['CMAKE_C_FLAGS'] = cmake.definitions['CMAKE_CXX_FLAGS'] = '-Oz -mmacosx-version-min=10.8'
+            cmake.definitions['CMAKE_C_FLAGS'] = cmake.definitions['CMAKE_CXX_FLAGS'] = '-Oz -mmacosx-version-min=10.10'
             cmake.definitions['CMAKE_CXX_COMPILER'] = '/usr/local/bin/clang++'
             cmake.configure(source_dir='../%s' % self.source_dir,
                             build_dir='.')
