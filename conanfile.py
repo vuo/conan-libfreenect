@@ -77,10 +77,9 @@ class LibfreenectConan(ConanFile):
                 shutil.move('lib/libfreenect.0.5.5.dylib', 'lib/libfreenect.dylib')
                 self.run('install_name_tool -id @rpath/libfreenect.dylib lib/libfreenect.dylib')
             elif platform.system() == 'Linux':
-                self.run('ls -lR')
                 shutil.move('lib/libfreenect.so.0.5.5', 'lib/libfreenect.so')
                 patchelf = self.deps_cpp_info['patchelf'].rootpath + '/bin/patchelf'
-                self.run('%s --set-soname libfreenect.so code/libfreenect.so' % patchelf)
+                self.run('%s --set-soname libfreenect.so lib/libfreenect.so' % patchelf)
 
     def package(self):
         if platform.system() == 'Darwin':
