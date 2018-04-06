@@ -63,7 +63,10 @@ class LibfreenectConan(ConanFile):
             cmake.definitions['BUILD_PYTHON3'] = False
             cmake.definitions['BUILD_REDIST_PACKAGE'] = True
             cmake.definitions['CMAKE_C_COMPILER'] = self.deps_cpp_info['llvm'].rootpath + '/bin/clang'
-            cmake.definitions['CMAKE_C_FLAGS'] = cmake.definitions['CMAKE_CXX_FLAGS'] = '-Oz -mmacosx-version-min=10.10'
+            cmake.definitions['CMAKE_C_FLAGS'] = cmake.definitions['CMAKE_CXX_FLAGS'] = '-Oz'
+            if platform.system() == 'Darwin':
+                cmake.definitions['CMAKE_C_FLAGS'] += ' -mmacosx-version-min=10.10'
+                cmake.definitions['CMAKE_CXX_FLAGS'] += ' -mmacosx-version-min=10.10'
             cmake.definitions['CMAKE_CXX_COMPILER'] = self.deps_cpp_info['llvm'].rootpath + '/bin/clang++'
             cmake.configure(source_dir='../%s' % self.source_dir,
                             build_dir='.')
